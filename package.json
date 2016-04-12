@@ -1,0 +1,22 @@
+{
+  "name": "make-cli-github-api",
+  "version": "1.0.0",
+  "description": "Making a simple Angular client for the Github api",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ishidas/make-cli-github-api.git"
+  },
+  "author": "sawako.yoriko@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ishidas/make-cli-github-api/issues"
+  },
+  "homepage": "https://github.com/ishidas/make-cli-github-api#readme",
+  "dependencies": {
+    "angular": "^1.5.3"
+  }
+}
