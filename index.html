@@ -6,12 +6,28 @@
   </head>
   <body data-ng-app="myApp">
     <form data-ng-controller="repoViewCtrl as repo" name="search">
-      <input type="text" name="search" value="">
-      <div data-ng-model="repo.repoStuff">{{ repo.repoStuff }}</div>
+      <input type="text" name="search" placeholder="type to search">
+      <div data-ng-model="repo.repoStuff" data-ng-bind="repo.repoStuff"></div>
+      <img id="avatar" data-ng-src="{{repo.avatar}}"/>
+      <div data-ng-bind="repo.myAcct"></div>
+      <ul data-ng-repeat="repoObj in repo.newDataSet">
+        <li data-ng-bind="repoObj.name"></li>
+        <li data-ng-bind="repoObj.html_url"></li>
+        <li data-ng-bind="repoObj.created_at"></li>
+      </ul>
+      <input data-ng-click="repo.getRepo()" type="submit" name="search" value="Get All">
+      <input data-ng-click="repo.getRepoLinks()" type="button" name="name" value="Search My Repo Links">
     </form>
 
-    <script src="./node_modules/angular/angular.js" type="text/javascript"></script>
+    <script src="./bower_components/angular/angular.js" type="text/javascript"></script>
+    <script src="./bower_components/angular-resource/angular-resource.js" type="text/javascript"></script>
+    <script src="./bower_components/angular-cookies/angular-cookies.js" type="text/javascript"></script>
+    <script src="./bower_components/angular-sanitize/angular-sanitize.js" type="text/javascript"></script>
     <script src="./app/app.js" type="text/javascript"></script>
     <script src="./app/repo-module.js" type="text/javascript"></script>
+    <!-- <script src="./node_modules/ng-resource/index.js" type="text/javascript"></script> -->
+    <!-- <script src="./config.js" type="text/javascript"></script> -->
+
+
   </body>
 </html>
