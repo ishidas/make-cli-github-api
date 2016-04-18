@@ -23,6 +23,7 @@
           </ul>
       </section>
       <section class="repeat-sections">
+        <h3>Followers</h3>
         <ul data-ng-repeat="follower in repo.followersLinks">
           <li data-ng-bind="'Login Name : ' + follower.login"></li>
           <a data-ng-href="{{follower.url}}" data-ng-bind="follower.url"></a>
