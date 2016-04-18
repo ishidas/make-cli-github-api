@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Github API</title>
-    <link rel="stylesheet" href="./css/layout.css" media="screen" charset="utf-8">
+    <!-- <link rel="stylesheet" href="./css/layout.css" media="screen" charset="utf-8"> -->
     <link rel="stylesheet" href="./css/base.css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="style.css" media="screen" charset="utf-8">
   </head>
@@ -13,37 +13,54 @@
       <h1>Sawako's Github Profile</h1>
     </section>
     <form data-ng-controller="repoViewCtrl as repo" name="search">
-      <p id="search-icon" class="icon-search"></p>
-      <input id="search-bar" type="text" name="search" placeholder="type to search">
       <img id="avatar" data-ng-src="{{repo.avatar}}"/>
-      <div id="my-url" data-ng-bind="repo.myAcct"></div>
-      <section class="repeat-sections">
-          <ul data-ng-repeat="copiedRepoObj in repo.copiedNewDataSet">
-            <a data-ng-href="{{copiedRepoObj.following_url}}" data-ng-bind="copiedRepoObj.following_url"></a>
-            <a data-ng-href="{{copiedRepoObj.followers_url}}" data-ng-bind="copiedRepoObj.followers_url"></a>
-            <li data-ng-bind="copiedRepoObj.starred_url"></li>
+      <section id="stats">
+        <p id="my-url" data-ng-bind="repo.myAcct"></p>
+          <ul >
+            <li data-ng-model="repo.starCounts" data-ng-bind="'Starred : ' + repo.starCounts"></li>
+            <li data-ng-model="repo.followers" data-ng-bind="'Followers : ' + repo.followers"></li>
+            <li data-ng-model="repo.following" data-ng-bind="'Following : ' + repo.following"></li>
           </ul>
       </section>
       <section class="repeat-sections">
+        <ul data-ng-repeat="follower in repo.followersLinks">
+          <li data-ng-bind="'Login Name : ' + follower.login"></li>
+          <a data-ng-href="{{follower.url}}" data-ng-bind="follower.url"></a>
+          <img class="small-img" data-ng-src="{{follower.avatar_url}}"/>
+        </ul>
+      </section>
+      <section class="repeat-sections">
+        <h3 class="icon-attachment">Repositories</h3>
         <ul data-ng-repeat="repoObj in repo.newDataSet">
-          <li data-ng-bind="repoObj.name"></li>
+          <li data-ng-bind="'Repo Name : ' + repoObj.name"></li>
           <li data-ng-bind="repoObj.created_at"></li>
           <a data-ng-href="{{repoObj.html_url}}" data-ng-bind="repoObj.html_url"></a>
         </ul>
       </section>
-      <input class="search-button" data-ng-click="repo.getFollowers()" type="button" name="name" value="Followers and Stars">
-      <input class="search-button" data-ng-click="repo.getRepoLinks()" type="button" name="name" value="Search My Repo Links">
+      <section class="repeat-sections">
+        <h3 class="icon-star-empty">Starred</h3>
+        <ul data-ng-repeat="starred in repo.starredCollection">
+          <li data-ng-bind="starred.name"></li>
+          <li data-ng-bind="starred.login"></li>
+          <a data-ng-href="{{starred.url}}" data-ng-bind="starred.url"></a>
+        </ul>
+      </section>
+      <section class="repeat-sections">
+        <h3>Following</h3>
+        <ul data-ng-repeat="following in repo.followingPeople">
+          <li data-ng-bind="following.login"></li>
+          <a data-ng-href="{{following.url}}" data-ng-bind="following.url"></a>
+          <img class="small-img" data-ng-src="{{following.avatar_url}}"/>
+        </ul>
+      </section>
+      <input class="search-button" data-ng-click="repo.getStarred()" name="star" type="button" value="Starred">
+      <input class="search-button" data-ng-click="repo.getRepoLinks()" type="button" value="My Repo Links">
+      <input class="search-button" data-ng-click="repo.getFollowersLinks()" type="button" value="Followers Links">
+      <input class="search-button" data-ng-click="repo.getMyFollowings()" type="button" value="Following">
     </form>
-
     <script src="./bower_components/angular/angular.js" type="text/javascript"></script>
     <script src="./bower_components/angular-resource/angular-resource.js" type="text/javascript"></script>
-    <script src="./bower_components/angular-cookies/angular-cookies.js" type="text/javascript"></script>
-    <script src="./bower_components/angular-sanitize/angular-sanitize.js" type="text/javascript"></script>
     <script src="./app/app.js" type="text/javascript"></script>
     <script src="./app/repo-module.js" type="text/javascript"></script>
-    <!-- <script src="./node_modules/ng-resource/index.js" type="text/javascript"></script> -->
-    <!-- <script src="./config.js" type="text/javascript"></script> -->
-
-
   </body>
 </html>

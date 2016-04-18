@@ -28,6 +28,11 @@ form {
   font-size: 3.5em;
 }
 
+#star-icon{
+  display: inline-block;
+  font-size: 3.5;
+}
+
 h1 {
   display: inline-block;
   font-size: 3.5em;
@@ -35,19 +40,23 @@ h1 {
 
 #avatar {
   position: absolute;
+  display: inline-block;
   left: 2em;
   top: 2em;
   width: 10em;
 }
 
-#search-bar {
+#stats {
   display: inline-block;
   position: relative;
-  width: 20em;
-  height: 4em;
-  left: 30em;
-  top: 10em;
+  left: 20em;
 }
+
+.small-img {
+  width: 2em;
+  height: 2em;
+}
+
 
 #my-url {
   display: inline-block;
@@ -55,13 +64,6 @@ h1 {
   left: 1em;
 }
 
-#search-icon {
-  display: inline-block;
-  position: relative;
-  top: 3.2em;
-  left: 8em;
-  font-size: 2.5em;
-}
 
 .search-button {
   display: inline-block;

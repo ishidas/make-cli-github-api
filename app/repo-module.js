@@ -7,17 +7,20 @@
 
   function repoViewCtrl ($http){
     var mainRoute = 'https://api.github.com/users/ishidas'
+    var starredRoute = 'https://api.github.com/users/ishidas/starred'
     this.searching = {};
     this.repoStuff = {};
     this.avatar = {};
     this.myAcct = {};
-    this.repoUrl;
-    this.repoLinks;
-    this.newDataSet;//for getRepoLinks
-    this.copiedNewDataSet;//for getFollowers
+    this.repoUrl = null;
+    this.repoLinks = null;
+    this.newDataSet = null;//for getRepoLinks
+    this.followersLinks = null;
+    this.followingPeople = null;
     this.followers = null;
     this.following = null;
-    
+    this.starredCollection = null;
+    this.starCounts = null;
     //initial page load
     $http.get(mainRoute).then((user)=>{
       this.repoStuff = angular.toJson(user.data);
@@ -33,44 +36,77 @@
       console.dir('repo : ' + this.repoUrl)
       console.dir('following : ' + this.following)
       console.dir('followers : ' + this.followers)
-
+      console.dir('starred : ' + this.starred)
     });
 
-    this.getFollowers = function(){
-      if(this.copiedNewDataSet == null){
-        console.log('it is indeed 0');
-        this.getRepoLinks();
-      } else {
-        console.dir('it has some data! ' + angular.toJson(this.copiedNewDataSet))
+    //getting starred repo name, login name and url
+    this.getStarred = function(){
+      $http.get(starredRoute).then((starred)=>{
+        this.starredCollection = starred.data.map((obj)=>{
+          var returnedObj = {
+            name: '',
+            login: '',
+            url: ''
+          }
+          returnedObj.name = obj.name
+          returnedObj.login = obj.owner.login
+          returnedObj.url = obj.owner.url
+          return returnedObj
+        })
+        this.starCounts = this.starredCollection.length;
+      });
+    }
 
-      }
+    //getting followers links,
+    this.getFollowersLinks = function(){
+      $http.get(mainRoute + '/followers').then((followers)=>{
+        this.followersLinks = followers.data.map((obj)=>{
+          var returnedObj = {
+            login: '',
+            url: '',
+            avatar_url: ''
+          }
+          returnedObj.login = obj.login
+          returnedObj.url = obj.url
+          returnedObj.avatar_url = obj.avatar_url
+          return returnedObj
+        })
+      });
+    }
+
+    this.getMyFollowings = function(){
+      $http.get(mainRoute + '/following').then((followings)=>{
+        this.followingPeople = followings.data.map((obj)=>{
+          var returnedObj = {
+            login: '',
+            url: '',
+            avatar_url: ''
+          }
+          returnedObj.login = obj.login
+          returnedObj.url = obj.url
+          returnedObj.avatar_url = obj.avatar_url
+          return returnedObj
+        });
+      });
     }
 
     //getting list of repositories in list view
-    this.getRepoLinks = function(){
-      $http.get(this.repoUrl).then((repo)=>{
+     this.getRepoLinks = function(){
+      $http.get(mainRoute + '/repos').then((repo)=>{
         var dataSet = repo.data;
          this.newDataSet = dataSet.map((obj)=>{
           var returnedObj = {
             name: '',
             html_url: '',
-            created_at: '',
-            following_url: '',
-            followers_url: '',
-            starred_url: ''
+            created_at: ''
           };
           returnedObj.name = obj.name
           returnedObj.html_url = obj.html_url
           returnedObj.created_at = obj.created_at
-          returnedObj.following_url = obj.owner.following_url
-          returnedObj.followers_url = obj.owner.followers_url
-          returnedObj.starred_url = obj.owner.starred_url
           return returnedObj
         })
-        this.copiedNewDataSet = angular.copy(this.newDataSet)
-        console.dir('newDataSet  : ' + angular.toJson(this.newDataSet))
       })
-    };
+    }
 
 
   }
